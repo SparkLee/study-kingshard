@@ -46,5 +46,20 @@ services:
       MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
     networks:
       - kingshard
+  # MySql主库2
+  mysqlmaster2:
+    hostname: mysqlmaster2
+    restart: always
+    container_name: mysqlmaster2
+    image: sparklee/mysqlmaster2:5.7
+    build:
+      context: ./mysql-master-2
+      dockerfile: Dockerfile
+    ports:
+      - "33070:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+    networks:
+      - kingshard
 networks:
   kingshard:
