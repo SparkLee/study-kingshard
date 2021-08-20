@@ -2,6 +2,11 @@
 
 学习 kingshard（一个mysql分库分表中间件）
 
+# 连接 kingshard
+```shell
+$ mysql -h127.0.0.1 -P9696 -uroot -proot
+```
+
 # MySQL测试集群启动
 ```shell
 $ cd docker/mysql
@@ -9,11 +14,27 @@ $ cd docker/mysql
 $ docker-compose up -d
 ```
 
+# MySQL连接
+```shell
+# 连接主库
+$ mysql -h127.0.0.1 -P33060 -uroot -p111111
+
+# 连接从库1
+$ mysql -h127.0.0.1 -P33061 -uroot -p111111
+
+# 连接从库2
+$ mysql -h127.0.0.1 -P33062 -uroot -p111111
+
+# 查看 Server Id
+mysql> show variables like 'server_id';
+```
 # MySQL测试数据
 
 创建测试用表结构：
 ```sql
-mysql> use test;
+mysql> create database ks;
+
+mysql> use ks;
 
 mysql> create table `user` (
   `id` int(11) not null,
@@ -40,6 +61,9 @@ mysql> grant replication slave on *.* to 'repl'@'%';
 
 # 刷新用户权限
 mysql> flush privileges;
+
+# 查看主库状态
+mysql> show master status;
 ```
 
 在所有从库中执行 SQL 连接主库：
@@ -51,7 +75,7 @@ mysql> change master to master_host='mysqlmaster',master_port=3306,master_user='
 mysql> start slave;
 
 # 查看主从复制状态
-mysql> show slave status;
+mysql> show slave status\G
 Slave_IO_Running:  Yes
 Slave_SQL_Running: Yes
 
