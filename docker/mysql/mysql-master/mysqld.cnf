@@ -1,0 +1,13 @@
+[mysqld]
+server-id = 1
+bind-address = 0.0.0.0
+binlog-format = row
+expire-logs-days = 30
+max-binlog-size = 100M
+gtid-mode = ON
+enforce-gtid-consistency = ON
+binlog-checksum = CRC32
+master-verify-checksum = 1
+log-bin = /var/lib/mysql/mysql-bin
+log-bin-index = /var/lib/mysql/mysql-bin.index
+log-slave-updates = ON

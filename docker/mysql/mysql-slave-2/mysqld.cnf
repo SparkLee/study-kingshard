@@ -1,0 +1,11 @@
+[mysqld]
+server-id = 3
+gtid-mode = ON
+enforce-gtid-consistency = ON
+relay-log = /var/lib/mysql/mysql-relay
+relay-log-index = /var/lib/mysql/mysql-relay.index
+slave-parallel-type = LOGICAL_CLOCK
+slave-parallel-workers = 16
+master-info-repository = TABLE
+relay-log-info-repository = TABLE
+relay-log-recovery = ON

@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+  # MySql主库
+  mysqlmaster:
+    hostname: mysqlmaster
+    restart: always
+    container_name: mysqlmaster
+    image: sparklee/mysqlmaster:5.7
+    build:
+      context: ./mysql-master
+      dockerfile: Dockerfile
+    ports:
+      - "63790:6379"
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+    networks:
+      - kingshard
+  # MySQL从库1
+  mysqlslave1:
+    hostname: mysqlslave1
+    restart: always
+    container_name: mysqlslave1
+    image: sparklee/mysqlslave1:5.7
+    build:
+      context: ./mysql-slave-1
+      dockerfile: Dockerfile
+    ports:
+      - "63791:6379"
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+    networks:
+      - kingshard
+  # MySQL从库2
+  mysqlslave2:
+    hostname: mysqlslave2
+    restart: always
+    container_name: mysqlslave2
+    image: sparklee/mysqlslave2:5.7
+    build:
+      context: ./mysql-slave-2
+      dockerfile: Dockerfile
+    ports:
+      - "63792:6379"
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+    networks:
+      - kingshard
+networks:
+  kingshard:
